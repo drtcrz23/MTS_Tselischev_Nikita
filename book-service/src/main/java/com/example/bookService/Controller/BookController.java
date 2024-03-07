@@ -28,7 +28,7 @@ public class BookController {
 
   @PostMapping()
   public Book create(@NotNull @RequestBody @Valid BookRequestCreate body) {
-    return bookService.createBook(body.title(), body.author(), body.tags());
+    return bookService.createBook(body.author(), body.title(), body.tags());
   }
 
 //  @GetMapping("/books")
@@ -45,14 +45,14 @@ public class BookController {
     return bookService.findBooksByTag(tag);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/books/{id}")
   public void updateBook(@NotNull @PathVariable Long id,
                          @NotNull @RequestBody @Valid BookRequestUpdate body)
           throws BookNotFoundException {
-    bookService.updateBook(id, body.title(), body.author(), body.tags());
+    bookService.updateBook(id, body.author(), body.title(), body.tags());
   }
 
-  @DeleteMapping("/{id}")
+  @DeleteMapping("/books/{id}")
   public void deleteBook(@NotNull @PathVariable Long id) throws BookNotFoundException {
     bookService.deleteBook(id);
   }
