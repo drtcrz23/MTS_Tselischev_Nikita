@@ -1,0 +1,25 @@
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Список курсов</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.6.0.min.css"/>
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Автор</th>
+        <th>Название</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="course:${courses}">
+        <td th:text="${course.id}"></td>
+        <td th:text="${course.author}"></td>
+        <td th:text="${course.title}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
