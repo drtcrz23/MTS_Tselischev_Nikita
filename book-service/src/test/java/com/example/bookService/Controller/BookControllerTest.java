@@ -10,7 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ class BookControllerTest {
   private TestRestTemplate rest;
 
   @Test
-  void shouldCreateBook() {
+  void endToEndTest() {
     var bookRequest = new BookRequestCreate("Michael", "Brand new book", Set.of("Comedy", "Mystery"));
     ResponseEntity<Book> createBookResponse =
             rest.postForEntity("/api", bookRequest, Book.class);

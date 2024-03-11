@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/books")
 @Validated
 public class BookController {
   private final BookService bookService;
@@ -36,23 +36,23 @@ public class BookController {
 //    return bookService.findAllBook();
 //  }
 
-  @GetMapping("/books/{id}")
+  @GetMapping("/{id}")
   public Book findBookById(@NotNull @PathVariable("id") Long id) throws BookNotFoundException {
     return bookService.findBookById(id);
   }
-  @GetMapping("/books")
+  @GetMapping()
   public List<Book> findBookByTag(@RequestParam(required = false) String tag) {
     return bookService.findBooksByTag(tag);
   }
 
-  @PutMapping("/books/{id}")
+  @PutMapping("/{id}")
   public void updateBook(@NotNull @PathVariable Long id,
                          @NotNull @RequestBody @Valid BookRequestUpdate body)
           throws BookNotFoundException {
     bookService.updateBook(id, body.author(), body.title(), body.tags());
   }
 
-  @DeleteMapping("/books/{id}")
+  @DeleteMapping("/{id}")
   public void deleteBook(@NotNull @PathVariable Long id) throws BookNotFoundException {
     bookService.deleteBook(id);
   }
