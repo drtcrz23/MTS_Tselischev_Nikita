@@ -1,4 +1,4 @@
-package com.example.bookService.Exceptions;
+package com.example.bookService.data.Exceptions;
 
 public class BookNotFoundException extends Exception {
   public BookNotFoundException(Long bookId) {
