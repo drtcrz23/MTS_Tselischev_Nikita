@@ -27,7 +27,6 @@ public class BookService {
     this.authorRepository = authorRepository;
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public Book createBook(String title, Long authorId) throws InvalidDataException {
     if (title == null || authorId == null) throw new InvalidDataException();
     var author = authorRepository.findById(authorId);
@@ -35,14 +34,12 @@ public class BookService {
     return bookRepository.save(new Book(title, authorId));
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public BookDto findBookById(Long bookId) throws BookNotFoundException {
     Book book = bookRepository.findById(bookId).orElse(null);
     if (book == null) throw new BookNotFoundException(bookId);
     return new BookDto(book.getId(), book.getTitle(), book.getTags());
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public List<Book> getAllBooks() {
     return bookRepository.findAll();
   }

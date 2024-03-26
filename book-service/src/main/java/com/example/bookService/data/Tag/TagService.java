@@ -16,14 +16,12 @@ public class TagService {
     this.tagRepository = tagRepository;
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public Tag createTag(String name) throws InvalidDataException {
     if (name == null) throw new InvalidDataException();
     Tag tag = new Tag(name);
     return tagRepository.save(tag);
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public Tag findTagById(Long tagId) throws TagNotFoundException {
     Tag tag = tagRepository.findById(tagId).orElse(null);
     if (tag == null) throw new TagNotFoundException(tagId);

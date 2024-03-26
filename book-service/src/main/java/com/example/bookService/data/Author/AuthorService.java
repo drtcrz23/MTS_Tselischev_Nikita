@@ -15,13 +15,11 @@ public class AuthorService {
     this.authorRepository = authorRepository;
   }
 
-  @Transactional(propagation = Propagation.REQUIRED)
   public Author createAuthor(String firstName, String lastName) throws InvalidDataException {
     if (firstName == null || lastName == null) throw new InvalidDataException();
     Author author = new Author(firstName, lastName);
     return authorRepository.save(author);
   }
-  @Transactional(propagation = Propagation.REQUIRED)
   public Author findAuthorById(Long authorId) throws AuthorNotFoundException {
     Author author = authorRepository.findById(authorId).orElse(null);
     if (author == null) throw new AuthorNotFoundException(authorId);
