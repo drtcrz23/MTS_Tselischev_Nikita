@@ -1,4 +1,4 @@
-package com.example.authorregistryservice;
+package com.example.authorRegistryService;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
