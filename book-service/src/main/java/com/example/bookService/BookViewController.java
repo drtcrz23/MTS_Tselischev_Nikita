@@ -1,7 +1,7 @@
-package com.example.bookService.Controller;
+package com.example.bookService;
 
-import com.example.bookService.Book;
-import com.example.bookService.BookService;
+import com.example.bookService.data.Book.Book;
+import com.example.bookService.data.Book.BookService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +18,7 @@ public class BookViewController {
 
   @GetMapping("/books")
   public String viewBooks(Model model) {
-    List<Book> books = bookService.findAllBook();
+    List<Book> books = bookService.getAllBooks();
     model.addAttribute("books", books);
     return "books";
   }
