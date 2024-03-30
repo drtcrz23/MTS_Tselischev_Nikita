@@ -11,7 +11,16 @@ public class AuthorRegisterRepository {
 
   public AuthorRegisterRepository() {
     this.bookAuthor = new HashMap<>();
-    bookAuthor.put("1000000", new AuthorInfo("lol", "kek"));
+    bookAuthor.put("Война и мир", new AuthorInfo("Лев", "Толстой"));
+    bookAuthor.put("Преступление и наказание", new AuthorInfo("Фёдор", "Достоевский"));
+    bookAuthor.put("Мастер и Маргарита", new AuthorInfo("Михаил", "Булгаков"));
+    bookAuthor.put("1984", new AuthorInfo("Джордж", "Оруэлл"));
+    bookAuthor.put("Улисс", new AuthorInfo("Джеймс", "Джойс"));
+    bookAuthor.put("Грозовой перевал", new AuthorInfo("Эмили", "Бронте"));
+    bookAuthor.put("Маленький принц", new AuthorInfo("Антуан", "д'Сент-Экзюпери"));
+    bookAuthor.put("Три товарища", new AuthorInfo("Эрих", "Мария Ремарк"));
+    bookAuthor.put("Анна Каренина", new AuthorInfo("Лев", "Толстой"));
+    bookAuthor.put("Евгений Онегин", new AuthorInfo("Александр", "Пушкин"));
   }
   public boolean isValid(AuthorInfo authorInfo, String bookName) {
     var author = this.bookAuthor.getOrDefault(bookName, null);

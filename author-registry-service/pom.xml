@@ -101,8 +101,7 @@
 								</rule>
 							</rules>
 							<excludes>
-								<exclude>**/exceptions/**</exclude>
-								<exclude>**/dto/**</exclude>
+								<exclude>**/DTO/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>

@@ -18,6 +18,11 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.mock-server</groupId>
             <artifactId>mockserver-client-java</artifactId>
             <version>5.13.2</version>
@@ -169,6 +174,11 @@
                                     </limits>
                                 </rule>
                             </rules>
+                            <excludes>
+                                <exclude>**/Exceptions/**</exclude>
+                                <exclude>**/DTO/**</exclude>
+                                <exclude>**/*Configuration*</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                     <execution>
