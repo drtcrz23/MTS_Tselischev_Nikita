@@ -5,9 +5,7 @@ import com.example.bookService.DTO.request.BookRequestCreate;
 import com.example.bookService.data.Book.Book;
 import com.example.bookService.data.Book.BookService;
 import com.example.bookService.DTO.request.BookRequestUpdate;
-import com.example.bookService.data.Exceptions.BookNotFoundException;
-import com.example.bookService.data.Exceptions.InvalidDataException;
-import com.example.bookService.data.Exceptions.TagNotFoundException;
+import com.example.bookService.data.Exceptions.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/books")
@@ -28,8 +28,8 @@ public class BookController {
   }
 
   @PostMapping()
-  public Book create(@NotNull @RequestBody @Valid BookRequestCreate body) throws InvalidDataException {
-    return bookService.createBook(body.title(), body.id());
+  public Book create(@NotNull @RequestBody @Valid BookRequestCreate body) throws InvalidDataException, AuthorNotFoundException, AuthorIsNotException {
+    return bookService.createBook(body.title(), body.id(), UUID.randomUUID().toString());
   }
 
 //  @GetMapping("/books")

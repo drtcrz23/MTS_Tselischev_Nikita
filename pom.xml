@@ -9,6 +9,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>author-registry-service</module>
         <module>book-service</module>
     </modules>
 
