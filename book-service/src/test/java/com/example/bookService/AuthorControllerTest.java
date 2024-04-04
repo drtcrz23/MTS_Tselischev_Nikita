@@ -15,7 +15,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
-@SpringBootTest(webEnvironment = RANDOM_PORT, classes = AuthorController.class)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
 class AuthorControllerTest {
   @Autowired
   private TestRestTemplate rest;
