@@ -127,7 +127,7 @@
 								</rule>
 							</rules>
 							<excludes>
-								<exclude>**/Exceptions/**</exclude>
+								<exclude>**/exceptions/**</exclude>
 								<exclude>**/DTO/**</exclude>
 								<exclude>**/*Configuration*</exclude>
 							</excludes>
