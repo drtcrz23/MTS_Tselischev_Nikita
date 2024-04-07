@@ -5,20 +5,14 @@ import com.example.bookService.data.Author.Author;
 import com.example.bookService.data.Author.AuthorService;
 import com.example.bookService.data.Book.Book;
 import com.example.bookService.data.Book.BookService;
-import com.example.bookService.data.Exceptions.AuthorIsNotException;
-import com.example.bookService.data.Exceptions.AuthorNotFoundException;
-import com.example.bookService.data.Exceptions.BookNotFoundException;
-import com.example.bookService.data.Exceptions.InvalidDataException;
+import com.example.bookService.data.Exceptions.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockserver.client.MockServerClient;
 import org.mockserver.model.HttpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpMethod;
 import org.springframework.test.annotation.DirtiesContext;
@@ -62,9 +56,9 @@ public class ServiceTest extends DataBaseSuite {
     var client = new MockServerClient(mockServer.getHost(), mockServer.getServerPort());
     client
             .when(request()
-                            .withMethod(String.valueOf(HttpMethod.POST))
-                            .withHeader("X-REQUEST-ID")
-                            .withPath("/api/registry"))
+                    .withMethod(String.valueOf(HttpMethod.POST))
+                    .withHeader("X-REQUEST-ID")
+                    .withPath("/api/registry"))
             .respond(new HttpResponse()
                     .withBody("{\"isValid\": \"true\"}")
                     .withHeader("Content-Type", "application/json"));

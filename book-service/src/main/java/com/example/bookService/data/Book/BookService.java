@@ -8,9 +8,7 @@ import com.example.bookService.data.Exceptions.*;
 import com.example.bookService.data.Tag.Tag;
 import com.example.bookService.data.Tag.TagRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
-import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -99,6 +97,13 @@ public class BookService {
     Book book = bookRepository.findById(bookId).orElse(null);
     if (book == null) throw new BookNotFoundException(bookId);
     bookRepository.deleteById(bookId);
+  }
+
+  public void updateRating(Long bookId, Integer rating) throws BookNotFoundException {
+    Book book = bookRepository.findById(bookId).orElse(null);
+    if (book == null) throw  new BookNotFoundException(bookId);
+    book.setRating(rating);
+    bookRepository.save(book);
   }
 
   @Transactional(propagation = Propagation.REQUIRED)

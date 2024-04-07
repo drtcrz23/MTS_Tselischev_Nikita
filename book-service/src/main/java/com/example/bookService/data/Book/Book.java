@@ -23,6 +23,8 @@ public class Book {
   @NotNull(message = "")
   @Column(name = "title")
   private String title;
+  @Column(name = "rating")
+  private int rating;
 
   @ManyToOne(fetch = EAGER)
   @JoinColumn(name = "author_id", insertable = false, updatable = false)
@@ -53,6 +55,7 @@ public class Book {
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
   }
@@ -67,5 +70,13 @@ public class Book {
 
   public String getTitle() {
     return title;
+  }
+
+  public int getRating() {
+    return rating;
+  }
+
+  public void setRating(int rating) {
+    this.rating = rating;
   }
 }
