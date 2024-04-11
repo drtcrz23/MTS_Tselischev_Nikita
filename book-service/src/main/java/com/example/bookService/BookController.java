@@ -6,7 +6,10 @@ import com.example.bookService.data.Book.Book;
 import com.example.bookService.data.Book.BookService;
 import com.example.bookService.DTO.request.BookRequestUpdate;
 import com.example.bookService.data.Exceptions.*;
+import com.example.bookService.data.Payment.PaymentService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,10 +24,12 @@ import java.util.UUID;
 @Validated
 public class BookController {
   private final BookService bookService;
+  private final PaymentService paymentService;
 
   @Autowired
-  public BookController(BookService bookService) {
+  public BookController(BookService bookService, PaymentService paymentService) {
     this.bookService = bookService;
+    this.paymentService = paymentService;
   }
 
   @PostMapping()
@@ -66,6 +71,13 @@ public class BookController {
                               @NotNull @PathVariable Long tagId)
           throws TagNotFoundException, BookNotFoundException {
     bookService.removeTag(bookId, tagId);
+  }
+
+  @PostMapping("buy/{bookId}/{userId}")
+  public void buy(@NotNull @PathVariable("bookId") Long bookId,
+                  @NotNull @PathVariable("userId") Long userId)
+          throws BookNotFoundException, JsonProcessingException {
+    paymentService.buyBookById(bookId, userId);
   }
 
   @ExceptionHandler

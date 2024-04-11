@@ -5,6 +5,7 @@ import com.example.bookService.DTO.request.AuthorRegistryRequest;
 import com.example.bookService.DTO.response.AuthorRegistryResponse;
 import com.example.bookService.data.Author.AuthorRepository;
 import com.example.bookService.data.Exceptions.*;
+import com.example.bookService.data.Payment.PaymentStatus;
 import com.example.bookService.data.Tag.Tag;
 import com.example.bookService.data.Tag.TagRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -101,7 +102,7 @@ public class BookService {
 
   public void updateRating(Long bookId, Integer rating) throws BookNotFoundException {
     Book book = bookRepository.findById(bookId).orElse(null);
-    if (book == null) throw  new BookNotFoundException(bookId);
+    if (book == null) throw new BookNotFoundException(bookId);
     book.setRating(rating);
     bookRepository.save(book);
   }
@@ -130,7 +131,23 @@ public class BookService {
   public Book fallbackRateLimiter(String title, Long authorId, String requestId, Throwable e) {
     throw new CreateBookException(e.getMessage(), e);
   }
+
   public Book fallbackCircuitBreaker(String title, Long authorId, String requestId, Throwable e) {
     throw new CreateBookException(e.getMessage(), e);
+  }
+
+  @Transactional
+  public void updatePaymentStatus(Long bookId, Boolean isSuccess) throws BookNotFoundException {
+    Book book = bookRepository.findById(bookId).orElse(null);
+
+    if (book == null) throw new BookNotFoundException(bookId);
+
+    if (isSuccess) {
+      book.setPaymentStatus(PaymentStatus.PAY_DONE);
+    } else {
+      book.setPaymentStatus(PaymentStatus.PAY_NONE);
+    }
+
+    bookRepository.save(book);
   }
 }
