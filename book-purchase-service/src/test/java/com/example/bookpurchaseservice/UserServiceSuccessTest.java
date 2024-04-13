@@ -1,11 +1,9 @@
 package com.example.bookpurchaseservice;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
 import com.example.bookpurchaseservice.DTO.BuyBookRequest;
 import com.example.bookpurchaseservice.DTO.BuyBookResponse;
 import com.example.bookpurchaseservice.data.exceptions.InvalidDataException;
+import com.example.bookpurchaseservice.data.exceptions.UserNotFoundException;
 import com.example.bookpurchaseservice.data.user.User;
 import com.example.bookpurchaseservice.data.user.UserService;
 import com.example.bookpurchaseservice.scheduler.OutboxScheduler;
@@ -15,6 +13,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
@@ -30,15 +30,13 @@ import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
-import org.apache.kafka.common.serialization.StringDeserializer;
-
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Properties;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 @SpringBootTest(
         properties = {
                 "topic-to-send-message=some-test-topic",
@@ -53,9 +51,9 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 })
 @Testcontainers
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_CLASS)
-//@Transactional(propagation = Propagation.NOT_SUPPORTED)
+@Transactional(propagation = Propagation.NOT_SUPPORTED)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class UserServiceFailTest extends DataBaseSuite {
+public class UserServiceSuccessTest extends DataBaseSuite {
   @Container
   @ServiceConnection
   public static final KafkaContainer KAFKA =
@@ -71,19 +69,19 @@ public class UserServiceFailTest extends DataBaseSuite {
   private KafkaTemplate<String, String> kafkaTemplate;
 
   @Test
-  void shouldFailTest() throws JsonProcessingException, InterruptedException, InvalidDataException {
-    User user = userService.createUser("Nikita", 10);
+  void shouldSuccessTest() throws JsonProcessingException, InterruptedException, UserNotFoundException, InvalidDataException {
+    User user = userService.createUser("Nikita", 1000);
 
     kafkaTemplate.send(
             "test-request-topic", objectMapper.writeValueAsString(new BuyBookRequest(1L, 100, user.getId())));
 
     KafkaTestConsumer consumer = new KafkaTestConsumer(KAFKA.getBootstrapServers(), "some-group-id");
     consumer.subscribe(List.of("some-test-topic"));
-
     Thread.sleep(10000);
 
     ConsumerRecords<String, String> records = consumer.poll();
     assertEquals(1, records.count());
+
     records.iterator().forEachRemaining(
             record -> {
               BuyBookResponse message;
@@ -92,7 +90,7 @@ public class UserServiceFailTest extends DataBaseSuite {
               } catch (JsonProcessingException e) {
                 throw new RuntimeException(e);
               }
-              assertFalse(message.isSuccess());
+              assertTrue(message.isSuccess());
               assertEquals(1L, message.bookId());
             }
     );

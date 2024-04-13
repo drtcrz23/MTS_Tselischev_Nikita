@@ -30,7 +30,7 @@ public class OutboxScheduler {
   }
 
   @Transactional
-  @Scheduled(fixedDelay = 10000)
+  @Scheduled(fixedDelay = 1000)
   public void processOutbox() {
     List<OutboxRecord> result = outboxRepository.findAll();
     for (OutboxRecord outboxRecord : result) {
