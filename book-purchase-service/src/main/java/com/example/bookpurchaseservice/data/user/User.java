@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-@Table(name = "user_table")
+@Table(name = "users")
 @Entity
 public class User {
 
