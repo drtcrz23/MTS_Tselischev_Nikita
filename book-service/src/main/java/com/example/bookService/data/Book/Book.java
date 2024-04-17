@@ -1,6 +1,7 @@
 package com.example.bookService.data.Book;
 
 import com.example.bookService.data.Author.Author;
+import com.example.bookService.data.Payment.PaymentStatus;
 import com.example.bookService.data.Tag.Tag;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -10,7 +11,6 @@ import java.util.Set;
 
 import static jakarta.persistence.CascadeType.PERSIST;
 import static jakarta.persistence.FetchType.EAGER;
-import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Table(name = "books")
@@ -39,6 +39,10 @@ public class Book {
           joinColumns = @JoinColumn(name = "book_id"),
           inverseJoinColumns = @JoinColumn(name = "tag_id"))
   private Set<Tag> tags = new HashSet<>();
+
+  @Column(name = "payment_status")
+  @Enumerated(EnumType.STRING)
+  private PaymentStatus paymentStatus = PaymentStatus.PAY_NONE;
 
   protected Book() {
   }
@@ -78,5 +82,13 @@ public class Book {
 
   public void setRating(int rating) {
     this.rating = rating;
+  }
+
+  public PaymentStatus getPaymentStatus() {
+    return paymentStatus;
+  }
+
+  public void setPaymentStatus(PaymentStatus paymentStatus) {
+    this.paymentStatus = paymentStatus;
   }
 }
