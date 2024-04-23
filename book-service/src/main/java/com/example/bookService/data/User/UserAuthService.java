@@ -25,22 +25,14 @@ public class UserAuthService implements UserDetailsService {
   @Transactional(readOnly = true)
   @Override
   public UserDetails loadUserByUsername(String username) {
-    var user =
-            userRepository
-                    .findByUsername(username)
-                    .orElseThrow(
-                            () -> new UsernameNotFoundException("User not found"));
-
-    List<GrantedAuthority> grantedAuthorities =
-            user.getRoles().stream()
+    var user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    List<GrantedAuthority> grantedAuthorities = user.getRoles().stream()
                     .map(Enum::name)
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
-
     return org.springframework.security.core.userdetails.User.builder()
             .username(user.getUsername())
             .password(user.getPassword())
-            .authorities(grantedAuthorities)
-            .build();
+            .authorities(grantedAuthorities).build();
   }
 }
