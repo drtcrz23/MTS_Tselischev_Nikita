@@ -12,12 +12,14 @@ import jakarta.validation.constraints.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/authors")
 @Validated
+@PreAuthorize("isAuthenticated()")
 public class AuthorController {
   private final AuthorService authorService;
 
@@ -25,7 +27,7 @@ public class AuthorController {
   public AuthorController(AuthorService authorService) {
     this.authorService = authorService;
   }
-
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PostMapping()
   public Author createAuthor(@NotNull @RequestBody @Valid AuthorRequestCreate body) throws InvalidDataException {
     return authorService.createAuthor(body.firstName(), body.lastName());
@@ -35,13 +37,13 @@ public class AuthorController {
   public Author findAuthorById(@NotNull @PathVariable("id") Long id) throws AuthorNotFoundException {
     return authorService.findAuthorById(id);
   }
-
+  @PreAuthorize("hasAuthority('ADMIN')")
   @PutMapping("{id}")
   public void updateAuthor(@NotNull @PathVariable("id") Long authorId,
                            @NotNull @RequestBody @Valid AuthorRequestUpdate body) throws AuthorNotFoundException {
     authorService.updateAuthor(authorId, body.newFirstName(), body.newLastName());
   }
-
+  @PreAuthorize("hasAuthority('ADMIN')")
   @DeleteMapping("{id}")
   public void deleteAuthor(@NotNull @PathVariable("id") Long authorId) throws AuthorNotFoundException {
     authorService.deleteAuthor(authorId);
