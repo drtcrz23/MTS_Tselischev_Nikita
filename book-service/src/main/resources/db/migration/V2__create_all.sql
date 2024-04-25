@@ -1,4 +1,3 @@
-
 CREATE TABLE books (
     id BIGSERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,

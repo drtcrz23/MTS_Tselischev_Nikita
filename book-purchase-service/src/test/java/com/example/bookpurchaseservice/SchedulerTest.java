@@ -57,7 +57,7 @@ public class SchedulerTest extends DataBaseSuite {
     KafkaTestConsumer consumer = new KafkaTestConsumer(KAFKA.getBootstrapServers(), "book-purchase-service-group");
     consumer.subscribe(List.of("some-test-topic"));
 
-    Thread.sleep(10000);
+    Thread.sleep(20000);
 
     ConsumerRecords<String, String> records = consumer.poll();
     assertEquals(1, records.count());

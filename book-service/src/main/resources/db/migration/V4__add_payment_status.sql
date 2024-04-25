@@ -6,4 +6,4 @@ CREATE TYPE payment_status AS ENUM (
 CREATE CAST (varchar AS payment_status) WITH INOUT AS IMPLICIT;
 
 ALTER TABLE books
-ADD COLUMN payment_status payment_status NOT NULL DEFAULT 'NO_PAYMENT';
+ADD COLUMN payment_status payment_status NOT NULL DEFAULT 'PAY_NONE';
