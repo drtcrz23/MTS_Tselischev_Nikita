@@ -2,10 +2,7 @@ package com.example.bookService.data.User;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Set;
 
@@ -18,10 +15,11 @@ public class Users {
 
   @Id
   @GeneratedValue(strategy = IDENTITY)
+  @Column(name = "id")
   private Long id;
-
+  @Column(name = "username")
   private String username;
-
+  @Column(name = "password")
   private String password;
 
   @JdbcTypeCode(SqlTypes.JSON)

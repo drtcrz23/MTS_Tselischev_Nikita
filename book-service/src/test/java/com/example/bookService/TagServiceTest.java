@@ -39,7 +39,7 @@ public class TagServiceTest extends DataBaseSuite {
 
   @Test
   void findTagById() throws InvalidDataException, TagNotFoundException {
-    Tag tag = tagService.createTag("novel");
+    Tag tag = tagService.createTag("science fiction");
 
     Tag newTag = tagService.findTagById(tag.getId());
 
@@ -49,7 +49,7 @@ public class TagServiceTest extends DataBaseSuite {
 
   @Test
   void updateTag() throws InvalidDataException, TagNotFoundException {
-    Tag tag = tagService.createTag("novel");
+    Tag tag = tagService.createTag("horror");
 
     tagService.updateTag(tag.getId(), "non-fiction");
 
@@ -59,7 +59,7 @@ public class TagServiceTest extends DataBaseSuite {
 
   @Test
   void deleteTag() throws InvalidDataException, TagNotFoundException {
-    Tag tag = tagService.createTag("novel");
+    Tag tag = tagService.createTag("***");
     tagService.deleteTag(tag.getId());
     assertThrows(TagNotFoundException.class, () -> tagService.findTagById(tag.getId()));
   }
